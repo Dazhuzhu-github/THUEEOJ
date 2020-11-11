@@ -26,7 +26,7 @@ inline char readChar()//快速读入
 int id_sc[200000];
 int sc_num[1001001];
 int sc_buc_num[1001];
-void Insert()
+inline void Insert()
 {
     int id=readNum();
     int score=readNum();
@@ -36,7 +36,7 @@ void Insert()
     //printf("   %d",score/1000);
     return;
 }
-void Out()
+inline void Out()
 {
     int id=readNum();
     sc_num[id_sc[id]] -= 1;
@@ -45,7 +45,7 @@ void Out()
     //printf("%d",rank);
     return;
 }
-void Srank()
+inline void Srank()
 {
     int id=readNum();
     int rank=0;
@@ -63,7 +63,7 @@ void Srank()
     printf("%d\n",rank+1);
     return;
 }
-void Pscore()
+inline void Pscore()
 {
     int id=readNum();
     int score=id_sc[id]+1;
@@ -74,7 +74,7 @@ void Pscore()
     printf("%d\n",score);
     return;
 }
-void Nscore()
+inline void Nscore()
 {
     int id=readNum();
     int score=id_sc[id]-1;
