@@ -1,7 +1,15 @@
 /*
  * @Author: your name
+ * @Date: 2020-11-22 19:47:36
+ * @LastEditTime: 2020-11-22 19:49:55
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \07\07-1.cpp
+ */
+/*
+ * @Author: your name
  * @Date: 2020-11-10 16:29:34
- * @LastEditTime: 2020-11-22 20:52:13
+ * @LastEditTime: 2020-11-22 19:41:47
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \07\07.cpp
@@ -32,10 +40,10 @@ int main()
     #ifdef _Debug
     // freopen("7点100组.txt", "r", stdin);
     // freopen("out7.txt", "w", stdout);
-    // freopen("test.txt", "r", stdin);
-    // freopen("out.txt", "w", stdout);
-    freopen("test2.txt", "r", stdin);
-    freopen("out2.txt", "w", stdout);
+    freopen("test.txt", "r", stdin);
+    freopen("out.txt", "w", stdout);
+    // freopen("test2.txt", "r", stdin);
+    // freopen("out2.txt", "w", stdout);
     #endif 
     int n, m;//n行m列
     n=readNum();
@@ -48,10 +56,10 @@ int main()
     for(int i=1;i<=n*m;i++)
     {
         int j=i-1;
-        gaos[j*n*m+i]=1;
         //up
         if(i-2*m > 0)
         {
+           //gaos
             gaos[j*n*m+i-2*m]=1;
         }
         if(i-m > 0)
@@ -59,39 +67,38 @@ int main()
             gaos[j*n*m+i-m]=1;
         }
         //left
-        if((i+m-1)%m!=0 && (i+m-2)%m!=0)
+        if((i-2)%(n*m)!=0)
         {
             gaos[j*n*m+i-2]=1;
         }
-        if((i+m-1)%m!=0)
+        if((i-1)%(n*m)!=0)
         {
             gaos[j*n*m+i-1]=1;
         }
         //right
-        if((i+1)%m!=1&&(i+2)%m!=1)
+        if((i+2)%(n*m)!=1)
         {
             gaos[j*n*m+i+2]=1;
         }
-        if((i+1)%m!=1)
+        if((i+1)%(n*m)!=1)
         {
             gaos[j*n*m+i+1]=1;
         }
         //down
-        if(i+2*m <= n*m)
+        if(i+2*m > 0)
         {
             gaos[j*n*m+i+2*m]=1;
         }
-        if(i+m <= n*m)
+        if(i+m > 0)
         {
             gaos[j*n*m+i+m]=1;
         }
     }
-    #ifdef _Debug
     for(int i=0;i<n*m;i++)
     {
         for(int j=0;j<n*m;j++)
         {
-            if(gaos.test(i*n*m+j+1))
+            if(gaos.test(i*j+j+1))
             {
                 printf("1 ");
             }
@@ -102,9 +109,6 @@ int main()
         }
         printf("\n");
     }
-    #endif
-    //sovle the equation
-    
     //output ans
     for(int i=0;i<n;i++)
     {
@@ -121,13 +125,5 @@ int main()
         }
         printf("\n");
     }
-    // if(gaos.test(11))
-    //         {
-    //             printf("1 ");
-    //         }
-    //         else
-    //         {
-    //             printf("0 ");
-    //         }
     return 0;
 }
