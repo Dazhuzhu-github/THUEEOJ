@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-11-10 16:29:34
- * @LastEditTime: 2020-11-22 22:09:28
+ * @LastEditTime: 2020-11-23 01:05:10
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \07\07.cpp
@@ -28,8 +28,12 @@ inline int readNum() // 快速读入
 };
 bitset<100000001> gaos(0);
 bitset<10001> input(0);
+bitset<10001> output(0);
 int pivot[10001];//记录主元
-void Gaos(int n,int x,int size)
+#ifdef _Debug
+void test(int n,int m);
+#endif
+inline void Gaos(int n,int x,int size)
 //n是主元为多少，x是第几行去消,size是n*m
 {
     for(int i=0;i<size;i++)//历遍所有行
@@ -40,37 +44,21 @@ void Gaos(int n,int x,int size)
             {
                 gaos[i*size+j]=gaos[i*size+j]^gaos[x*size+j];
             }
+            input[i+1]=input[i+1]^input[x+1];//扩展矩阵
         }
     }
-    // #ifdef _Debug
-    // printf("\n");
-    // for(int i=0;i<size;i++)
-    // {
-    //     for(int j=0;j<size;j++)
-    //     {
-    //         if(gaos.test(i*size+j+1))
-    //         {
-    //             printf("1 ");
-    //         }
-    //         else
-    //         {
-    //             printf("0 ");
-    //         }
-    //     }
-    //     printf("\n");
-    // }
-    // #endif
 }
 int main()
 {
+    int count=0;//记录秩为多少
     memset(pivot,-1,sizeof(pivot));
     #ifdef _Debug
     // freopen("7点100组.txt", "r", stdin);
     // freopen("out7.txt", "w", stdout);
-    // freopen("test.txt", "r", stdin);
-    // freopen("out.txt", "w", stdout);
-    freopen("test2.txt", "r", stdin);
-    freopen("out2.txt", "w", stdout);
+    freopen("test.txt", "r", stdin);
+    freopen("out.txt", "w", stdout);
+    // freopen("test2.txt", "r", stdin);
+    // freopen("out2.txt", "w", stdout);
     #endif 
     int n, m;//n行m列
     n=readNum();
@@ -121,40 +109,52 @@ int main()
             gaos[j*n*m+i+m]=1;
         }
     }
-    #ifdef _Debug
-    for(int i=0;i<n*m;i++)
-    {
-        for(int j=0;j<n*m;j++)
-        {
-            if(gaos.test(i*n*m+j+1))
-            {
-                printf("1 ");
-            }
-            else
-            {
-                printf("0 ");
-            }
-        }
-        printf("\n");
-    }
-    printf("\n");
-    #endif
     //sovle the equation
     for(int i=1;i<=n*m;i++)//主元
     {
         for(int j=0;j<n*m;j++)//找那行0~n*m-1
         {
-            if(gaos[j*n*m+i]&&pivot[j]<0)
+            if(gaos.test(j*n*m+i)&&pivot[j]<0)
             {
-                pivot[j]=i;
+                pivot[j]=i;//i是主元，j是行数
+                count++;
                 //cout<<pivot[j];
                 Gaos(i,j,n*m);
                 break;
             }
         }
     }
-    #ifdef _Debug
-    printf("\n");
+    //count ans
+    for(int i=0;i<n*m;i++)//行
+    {
+        if(pivot[i]!=-1)
+        {
+            output[pivot[i]]=input[i+1];
+        }        
+    }
+    //output ans
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<m;j++)
+        {
+            if(output.test(i*m+j+1))
+            {
+                putchar('1');
+                putchar(' ');
+            }
+            else
+            {
+                putchar('0');
+                putchar(' ');
+            }
+        }
+        printf("\n");
+    }
+    return 0;
+}
+#ifdef _Debug
+void test(int n,int m)
+{
     for(int i=0;i<n*m;i++)
     {
         for(int j=0;j<n*m;j++)
@@ -170,30 +170,6 @@ int main()
         }
         printf("\n");
     }
-    #endif
-    //output ans
-    for(int i=0;i<n;i++)
-    {
-        for(int j=0;j<m;j++)
-        {
-            if(input.test(i*j+j+1))
-            {
-                printf("1 ");
-            }
-            else
-            {
-                printf("0 ");
-            }
-        }
-        printf("\n");
-    }
-    // if(gaos.test(11))
-    //         {
-    //             printf("1 ");
-    //         }
-    //         else
-    //         {
-    //             printf("0 ");
-    //         }
-    return 0;
+    printf("\n");
 }
+#endif
