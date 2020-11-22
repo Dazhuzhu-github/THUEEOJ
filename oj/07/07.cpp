@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-11-10 16:29:34
- * @LastEditTime: 2020-11-22 20:52:13
+ * @LastEditTime: 2020-11-22 22:09:28
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \07\07.cpp
@@ -9,6 +9,8 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<bitset>
+#include<cstring>
+#include<iostream>
 #define _Debug
 #ifdef _Debug
 #endif
@@ -26,9 +28,42 @@ inline int readNum() // 快速读入
 };
 bitset<100000001> gaos(0);
 bitset<10001> input(0);
-int pivot[10000];
+int pivot[10001];//记录主元
+void Gaos(int n,int x,int size)
+//n是主元为多少，x是第几行去消,size是n*m
+{
+    for(int i=0;i<size;i++)//历遍所有行
+    {
+        if(i!=x && gaos[i*size+n]!=0)
+        {
+            for(int j=1;j<=size;j++)//消元
+            {
+                gaos[i*size+j]=gaos[i*size+j]^gaos[x*size+j];
+            }
+        }
+    }
+    // #ifdef _Debug
+    // printf("\n");
+    // for(int i=0;i<size;i++)
+    // {
+    //     for(int j=0;j<size;j++)
+    //     {
+    //         if(gaos.test(i*size+j+1))
+    //         {
+    //             printf("1 ");
+    //         }
+    //         else
+    //         {
+    //             printf("0 ");
+    //         }
+    //     }
+    //     printf("\n");
+    // }
+    // #endif
+}
 int main()
 {
+    memset(pivot,-1,sizeof(pivot));
     #ifdef _Debug
     // freopen("7点100组.txt", "r", stdin);
     // freopen("out7.txt", "w", stdout);
@@ -102,9 +137,40 @@ int main()
         }
         printf("\n");
     }
+    printf("\n");
     #endif
     //sovle the equation
-    
+    for(int i=1;i<=n*m;i++)//主元
+    {
+        for(int j=0;j<n*m;j++)//找那行0~n*m-1
+        {
+            if(gaos[j*n*m+i]&&pivot[j]<0)
+            {
+                pivot[j]=i;
+                //cout<<pivot[j];
+                Gaos(i,j,n*m);
+                break;
+            }
+        }
+    }
+    #ifdef _Debug
+    printf("\n");
+    for(int i=0;i<n*m;i++)
+    {
+        for(int j=0;j<n*m;j++)
+        {
+            if(gaos.test(i*n*m+j+1))
+            {
+                printf("1 ");
+            }
+            else
+            {
+                printf("0 ");
+            }
+        }
+        printf("\n");
+    }
+    #endif
     //output ans
     for(int i=0;i<n;i++)
     {
