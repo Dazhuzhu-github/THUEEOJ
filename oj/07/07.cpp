@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-11-10 16:29:34
- * @LastEditTime: 2020-11-23 01:05:10
+ * @LastEditTime: 2020-11-23 18:47:26
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \07\07.cpp
@@ -40,7 +40,7 @@ inline void Gaos(int n,int x,int size)
     {
         if(i!=x && gaos[i*size+n]!=0)
         {
-            for(int j=1;j<=size;j++)//消元
+            for(int j=n;j<=size;j++)//消元
             {
                 gaos[i*size+j]=gaos[i*size+j]^gaos[x*size+j];
             }
@@ -55,10 +55,10 @@ int main()
     #ifdef _Debug
     // freopen("7点100组.txt", "r", stdin);
     // freopen("out7.txt", "w", stdout);
-    freopen("test.txt", "r", stdin);
-    freopen("out.txt", "w", stdout);
-    // freopen("test2.txt", "r", stdin);
-    // freopen("out2.txt", "w", stdout);
+    // freopen("test.txt", "r", stdin);
+    // freopen("out.txt", "w", stdout);
+    freopen("test2.txt", "r", stdin);
+    freopen("out2.txt", "w", stdout);
     #endif 
     int n, m;//n行m列
     n=readNum();
@@ -73,40 +73,43 @@ int main()
         int j=i-1;
         gaos[j*n*m+i]=1;
         //up
-        if(i-2*m > 0)
-        {
-            gaos[j*n*m+i-2*m]=1;
-        }
         if(i-m > 0)
         {
             gaos[j*n*m+i-m]=1;
+            if(i-2*m > 0)
+            {
+                gaos[j*n*m+i-2*m]=1;
+            }
         }
         //left
-        if((i+m-1)%m!=0 && (i+m-2)%m!=0)
-        {
-            gaos[j*n*m+i-2]=1;
-        }
+        
         if((i+m-1)%m!=0)
         {
             gaos[j*n*m+i-1]=1;
+            if((i+m-2)%m!=0)
+            {
+                gaos[j*n*m+i-2]=1;
+            }
         }
         //right
-        if((i+1)%m!=1&&(i+2)%m!=1)
-        {
-            gaos[j*n*m+i+2]=1;
-        }
+        
         if((i+1)%m!=1)
         {
             gaos[j*n*m+i+1]=1;
+            if((i+2)%m!=1)
+            {
+                gaos[j*n*m+i+2]=1;
+            }
         }
         //down
-        if(i+2*m <= n*m)
-        {
-            gaos[j*n*m+i+2*m]=1;
-        }
+        
         if(i+m <= n*m)
         {
             gaos[j*n*m+i+m]=1;
+            if(i+2*m <= n*m)
+            {
+                gaos[j*n*m+i+2*m]=1;
+            }
         }
     }
     //sovle the equation
@@ -114,10 +117,10 @@ int main()
     {
         for(int j=0;j<n*m;j++)//找那行0~n*m-1
         {
-            if(gaos.test(j*n*m+i)&&pivot[j]<0)
+            if(pivot[j]<0&&gaos.test(j*n*m+i))
             {
                 pivot[j]=i;//i是主元，j是行数
-                count++;
+                //count++;
                 //cout<<pivot[j];
                 Gaos(i,j,n*m);
                 break;
@@ -132,6 +135,7 @@ int main()
             output[pivot[i]]=input[i+1];
         }        
     }
+    test(n,m);
     //output ans
     for(int i=0;i<n;i++)
     {
@@ -168,7 +172,9 @@ void test(int n,int m)
                 printf("0 ");
             }
         }
+        cout<<"  "<<input[i]<<"   ";
         printf("\n");
+        
     }
     printf("\n");
 }
